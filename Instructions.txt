@@ -1,0 +1,728 @@
+1. We use vite for react as it's the latest tool for working with react [Vite Link](https://vitejs.dev/)
+
+2. Run below cmd:
+   npm create vite@latest
+
+3. It will ask couple question. Choose React and Javascript option.
+
+4. Next we must install our node mudules files by running cmd:
+   npm i
+   npm run dev
+
+5. src/app.jsx is our main file & copy basic code. Import css file simply for using:
+	import './App.css'
+	function App() {
+	  return (
+	  <>
+		<div>Content</div>
+	  </>
+	   )
+	}
+	export default App
+
+6. index.css file apply global css everywhere.
+
+7. We use <>...</> when we are try to return multiple elements with return() statement. Otherwise only one statement can be returned.
+
+8. For implementing css classes, use className.
+
+9. All components files must be in a components folder. Start capital letter. Give extension .jsx to these files.
+
+10. Do install ES7 React extensions for using shortcuts like:
+	rafce
+	
+11. Always close your tags in react files. Otherwise react will give you error. Beacuse its sricter in implementing. 
+
+12. Add your components like this:
+	import './App.css'
+	import Footer from './components/Footer'
+	import Navbar from './components/Navbar'
+
+	function App() {
+	  return (
+		<>
+		  <Navbar />
+		  <h1>Content</h1>
+		  <Footer />
+		</>
+	  )
+	}
+	export default App
+
+13. Props allow us to pass value to inner components. This make DOM Manipulation super-easy.
+	// App.jsx file
+	
+	import './App.css'
+	import Card from './components/Card'
+	import Footer from './components/Footer'
+	import Navbar from './components/Navbar'
+
+	function App() {
+	  return (
+		<>
+		  <Navbar />
+		  <div className='content'>
+			<Card title='Card 1' desc='card description for 1' />
+			<Card title='Card 2' desc='card description for 2' />
+			<Card title='Card 3' desc='card description for 3' />
+			<Card title='Card 4' desc='card description for 4' />
+		  </div>
+		  <Footer />
+		</>
+	  )
+	}
+	export default App
+	
+	// Card.jsx file - an inner component reciveing props
+	import React from 'react'
+	import './Card.css'
+
+	const Card = (props) => {
+	 return (
+	  <div className='card'>
+	   <img src='https://source.unsplash.com/random/400×250' />
+	   <h3>{props.title}</h3>
+	   <p>{props.desc}</p>
+	  </div>
+	 )
+	}
+	export default Card
+	
+	
+14. If you want use inline CSS then we do this way (Meaning it's passed as JS):
+	<h3 style={{ color: "red" }}>Text</h3>
+	
+	
+15. useState hook allow us DOM manupulation with less effort.
+	// Changing count using useState Hook
+	import { useState } from 'react'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+
+	  return (
+		<>
+			<button onClick={() => setCount((count) => count + 1)}>
+			  count is {count}
+			</button>
+		</>
+	  )
+	}
+	
+
+16. count is our variable holding data. setCount is a function which will change value of count. And useState keyword assign default value to variable as 0.
+
+17. With help of event listener onClick we applied the changes.
+	
+18. useEffect hook in React provide side-effects. Meaning we can do some stuff when rendering an component. Like fetching data from server. Excuting some code. etc.//
+	// Basic useEffect snippet
+	
+	import { useEffect } from 'react'
+	useEffect(() => {
+		alert('Page rendered')
+	}, [])
+	
+	
+19. In developement mode your useEffect might get trigged twice because it's running in strict mode. You can disable it it main.jsx
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>
+	
+	
+20. As you will observe our useEffect get working whenever that component is loaded by React. Similarly we can trigger it many way to its side-effect.
+
+21. Normally when we use a variable in components it will not able to remember its value due to re-rendering of components(Even useState re-renders).
+	// For example: "a" value remains the same despite counter going up
+	import { useState, useEffect } from 'react'
+	import './App.css'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+	  let a = 0
+
+	  useEffect(() => {
+		a = a + 1
+		console.log(a + 1);
+	  }, [count])
+
+	  return (
+			<button onClick={() => setCount((count) => count + 1)}>
+			  count is {count}
+			</button>
+		)
+	}
+	export default App
+	
+
+22. To solve this: we useRef hook so that our variable can persisit accross DOM rendering. We use variable.current to get useRef value.
+	// For example:
+	import { useState, useEffect, useRef } from 'react'
+	import './App.css'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+	  const a = useRef(0)
+
+	  useEffect(() => {
+		a.current = a.current + 1
+		console.log(a.current)
+	  }, [count])
+
+	  return (
+		<button onClick={() => setCount((count) => count + 1)}>
+		  count is {count}
+		</button>
+	  )
+	}
+	
+	
+23. Conditional Rendering can be achived multiple ways. First way is by using Ternary Operator. We set btn = true. So when ternary operator test it text  	show up. But our button click can change that to false.
+	
+	// For example:
+	import { useState } from 'react'
+	import './App.css'
+
+	function App() {
+		const [btn, setBtn] = useState(true)
+
+		return (
+			<>
+			  {btn ? <h1>Vite + React</h1> : ""}
+			  <button onClick={() => { setBtn(false) }}>Hide Text</button>
+			</>
+		)
+	}
+	export default App
+	
+	
+24. Can do same thing with && operator without providing else statement.
+	// For example
+	const [btn, setBtn] = useState(true)
+
+	return (
+		<>
+		  {btn && <h1>Vite + React</h1>}
+
+		  <button onClick={() => { setBtn(false) }}>Hide Text</button>
+		</>
+	)
+
+
+25. For list rendering:
+	Resources: https://react.dev/learn/rendering-lists
+	
+	// For example:
+	import './App.css'
+
+	function App() {
+		const todos = [
+			{
+			  title: "First title",
+			  desc: "Just first random description"
+			},
+			{
+			  title: "Second title",
+			  desc: "Just second random description"
+			},
+			{
+			  title: "Third title",
+			  desc: "Just third random description"
+			}
+		]
+
+		const List = todos.map((todo, index) => (
+			<li key={index}>
+				<h3>{todo.title}</h3>
+				<p>{todo.desc}</p>
+			</li>
+		));
+
+		return (
+			<>
+				<ul>{List}</ul>
+			</>
+		)
+	}
+	export default App
+	
+	
+26. In above map() function of react -> we use () instead of {} at the end to return data implicitly. If we use {} then we must use keyword return and wrap data in () anyway.
+
+
+27. To display data in react wrap them in {}. Example: {List}
+
+
+28. Event handling is much simpler in React.
+	//For example
+	import './App.css'
+
+	function App() {
+	  const alertEvent = () => {
+		alert("Click Event Fired!")
+	  }
+
+	  return (
+		<>
+		  <button onClick={alertEvent}>Click Events</button>
+		</>
+	  )
+	}
+	export default App
+	
+	
+29. Input events are handled a bit differently than other events. We can handle event individually or using form events.
+	// For example
+	import { useState } from 'react'
+	import './App.css'
+
+	function App() {
+	  const [name, setname] = useState([])
+
+	  const handleChange = (e) => {
+		setname(e.target.value)
+		console.log(e.target.value)
+	  }
+
+	  return (
+		<>
+		  <input type='text' value={name} onChange={handleChange} />
+		</>
+	  )
+	}
+	export default App
+	
+	
+30. Form events can be managed collectively also. Using ...form and e.target.value
+	// For example
+	import { useState } from 'react'
+	import './App.css'
+
+	function App() {
+	  const [form, setForm] = useState({
+		name: '',
+		password: ''
+	  })
+
+	  const handleChange = (e) => {
+		setForm({ ...form, [e.target.name]: e.target.value })
+		console.log(form)
+	  }
+
+	  return (
+		<>
+		  <input type='text' name='name' value={form.name} onChange={handleChange} />
+		  <input type='text' name='password' value={form.password} onChange={handleChange} />
+		</>
+	  )
+	}
+	export default App
+	
+	
+31. To make multiple page web app with React we must employ "React Router Dom". Install it with below command:
+	npm i react-router-dom
+	
+	// App.jsx
+	import Navbar from './components/Navbar'
+	import Home from './components/Home';
+	import About from './components/About';
+	import Contact from './components/Contact';
+	import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+	function App() {
+	  const router = createBrowserRouter([
+		{
+		  path: "/",
+		  element: <><Navbar /><Home /></>
+		},
+		{
+		  path: "/about",
+		  element: <><Navbar /><About /></>
+		},
+		{
+		  path: "/contact",
+		  element: <><Navbar /><Contact /></>
+		}
+	  ])
+
+	  return (
+		<>
+		  <RouterProvider router={router} />
+		</>
+	  )
+	}
+	export default App
+	
+
+32. With createBrowserRouter function from 'react-router-dom' we can pass as many link as we want. But to render them finally we use:
+	<RouterProvider router={router} />
+	
+33. Remember to keep your links in seperate component(prefered) named 'Navbar'.  And to make these link non-refresh kind use <Link></Link> tag.
+	//Navbar.jsx
+	
+	import React from 'react'
+	import { Link } from 'react-router-dom'
+
+	const Navbar = () => {
+	 return (
+	  <div>
+	   <ul>
+		<li><Link to="/">Home</Link></li>
+		<li><Link to="/about">About Us</Link></li>
+		<li><Link to="/contact">Contact Us</Link></li>
+	   </ul>
+	  </div>
+	 )
+	}
+	export default Navbar
+	
+	
+	
+34. You can pass value in these "React Router Dom" urls we made. Implement 'useParams' functionality for this.
+	// App.jsx
+	...
+	{
+      path: "/contact/:name",
+      element: <><Navbar /><Contact /></>
+    }
+	...
+	
+	// Contact.jsx
+	...
+	import { useParams } from 'react-router-dom'
+
+	const Contact = () => {
+	 const params = useParams()
+
+	 return (
+	  <div>
+	   Contact Us page: {params.name}
+	  </div>
+	 )
+	}
+	...
+	
+	
+35. useContext hook allow us to skip prop drilling in components. For example if we have a complicated tree like structure of components embeded inside. Then we must pass props from parent to children in an order to access them properly. But useContext allow us to skip this tiring process.
+	// Example nested components:
+	App.jsx
+		Navbar.jsx
+			Buttons.jsx
+				FormButton.jsx
+	
+	
+36. For using 'useContext' hook we create a context.js file.
+	//context/context.js
+	
+	import { createContext } from "react";
+
+	export const counterContext = createContext(0)
+	
+	
+37. Next we import and use 'useContext' hook in App.jsx:
+	// For example:
+	import { useState } from 'react'
+	import Navbar from './components/Navbar'
+	import { counterContext } from './context/context'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+
+	  return (
+		<>
+		  <counterContext.Provider value={count}>
+			<Navbar />
+			  <button onClick={() => setCount((count) => count + 1)}>
+				count is {count}
+			  </button>
+		  </counterContext.Provider>
+		</>
+	  )
+	}
+	export default App
+	
+	//Navbar.jsx
+	import React, { useContext } from 'react'
+	import { counterContext } from '../context/context'
+
+	const Navbar = () => {
+	 const counter = useContext(counterContext)
+	 return (
+	  <div>
+	   Navbar Component is here: {counter}
+	  </div>
+	 )
+	}
+	export default Navbar
+	
+	
+38. useMemo Hook helps optimize the performance by memoizing the results of expensive calculations. It returns a memoized value. Only recomputes that value when one of its dependencies has changed.
+	//For example(before useMemo Hook)
+	import { useState } from 'react'
+
+	const nums = new Array(30_000_000).fill(0).map((_, i) => {
+	  return {
+		index: i,
+		isMagical: i === 29_000_000
+	  }
+	})
+
+	function App() {
+	  const [count, setCount] = useState(0)
+	  const [numbers, setNumbers] = useState(nums)
+	  //Memory intensive function
+	  const magical = numbers.find(item => item.isMagical === true)
+	  return (
+		<>
+		  <h4>Magic number: {magical.index}</h4>
+		  <button onClick={() => setCount((count) => count + 1)}>
+			count is {count}
+		  </button>
+		</>
+	  )
+	}
+	export default App
+ 
+ 
+	//For example(after useMemo Hook)
+	import { useState, useMemo } from 'react'
+
+	const nums = new Array(30_000_000).fill(0).map((_, i) => {
+	  return {
+		index: i,
+		isMagical: i === 29_000_000
+	  }
+	})
+
+	function App() {
+	  const [count, setCount] = useState(0)
+	  const [numbers, setNumbers] = useState(nums)
+	  const magical = useMemo(() => numbers.find(item => item.isMagical === true), [])
+
+	  return (
+		<>
+		  <h4>Magic number: {magical.index}</h4>
+		  <button onClick={() => setCount((count) => count + 1)}>
+			count is {count}
+		  </button>
+		</>
+	  )
+	}
+	export default App
+	
+	
+
+39. When a 'state' is changed in React all components always re-renders. As you can see in below example whenever count is changed our Navbar is re-renders even though it has no change itself.
+	//For Example:
+	//App.jsx
+	import { useState } from 'react'
+	import Navbar from './components/Navbar'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+
+	  return (
+		<>
+		  <Navbar />
+			<button onClick={() => setCount((count) => count + 1)}>
+			  count is {count}
+			</button>
+		</>
+	  )
+	}
+	export default App
+	
+	// Navbar.jsx
+	import React from 'react'
+
+	const Navbar = () => {
+	console.log('Navbar Rendered')
+	return (
+	  <div>
+	   This is Navbar
+	  </div>
+	 )
+	}
+	export default Navbar
+	
+	
+40. We can fix this re-rendering by simple memo hook in this case.
+	// Navbar.jsx
+	import React, { memo } from 'react'
+	const Navbar = () => {
+	 console.log('Navbar Rendered')
+	 return (
+	  <div>
+	   This is Navbar
+	  </div>
+	 )
+	}
+	export default memo(Navbar)
+	
+	
+41. useCallback Hook is similar to useMemo hook and memo in functionality. While useMemo allow us to freeze and memozie variable in React. useCallback freeze/memozie our functions instead of variables.
+	// For Example(App.jsx)
+	import { useState, useCallback } from 'react'
+	import './App.css'
+	import Navbar from './components/Navbar'
+
+	function App() {
+	  const [count, setCount] = useState(0)
+
+	  const setColor = useCallback(() => {
+		return "pink"
+	  }, [])
+
+	  // const setColor = () => {
+	  //   return "pink"
+	  // }
+
+	  return (
+		<>
+		  <Navbar color={'red'} setColor={setColor} />
+		  <div className="card">
+			<button onClick={() => setCount((count) => count + 1)}>
+			  count is {count}
+			</button>
+		  </div>
+		</>
+	  )
+	}
+	export default App
+	
+	
+	//Navbar.jsx
+	import React, { memo } from 'react'
+
+	const Navbar = ({ color, setColor }) => {
+	 console.log('Navbar Rendered')
+	 return (
+	  <div>
+	   This is Navbar: {color}
+	   <button onClick={() => { setColor }}>button</button>
+	  </div>
+	 )
+	}
+	export default memo(Navbar)
+	
+	
+	
+42. React Hook form library allow easy validation and functioning of forms in React. It makes our work faster. Link: https://react-hook-form.com/
+	npm install react-hook-form
+	
+	// For example:
+	import { useForm } from "react-hook-form"
+
+	function App() {
+	  const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	  } = useForm()
+
+	  const onSubmit = (data) => console.log(data)
+
+	  return (
+		<>
+		  <form onSubmit={handleSubmit(onSubmit)}>
+			<input type='text' {...register("name", { required: true })} />
+			<br />
+			{errors.name && <span>This field is required</span>}
+			<br />
+			<input type='password' {...register("password", { required: { value: true, message: 'This field must be filled' }, minLength: { value: 5, message: 'Password should have 5 character minimum' } })} />
+			<br />
+			{errors.password && <span>{errors.password.message}</span>}
+			<br />
+			<input type='submit' value='Submit' />
+		  </form>
+		</>
+	  )
+	}
+	export default App
+	
+43. Why Redux? Because it allow you to store and retrive states aross all components of an app(dependening upon where you apply Redux). It prevents us the hassle of constant prop drilling. It is very useful when our React app is complex like ecommerce.
+
+	
+44. Redux Toolkit installation make it easier to use Redux.
+	Link: https://react-redux.js.org/tutorials/quick-start
+	npm install @reduxjs/toolkit react-redux
+	
+	
+45. Next we create Redux folder. Then store.js file.
+	// src/redux/store.js
+	
+	import { configureStore } from '@reduxjs/toolkit'
+	import counterReducer from './counter/counterSlice'
+
+	export default configureStore({
+	 reducer: {
+	  counter: counterReducer,
+	 },
+	})
+	
+	
+46. Moving to Main.jsx we import our store.js file and Provider from react redux.
+
+	import React from 'react'
+	import ReactDOM from 'react-dom/client'
+	import App from './App.jsx'
+	import './index.css'
+	import store from './redux/store.js'
+	import { Provider } from 'react-redux'
+
+	ReactDOM.createRoot(document.getElementById('root')).render(
+	  <React.StrictMode>
+		<Provider store={store}>
+		  <App />
+		</Provider>
+	  </React.StrictMode>,
+	)
+	
+	
+47. Next we create slice file for the state we need to manipulate accross our app.
+	// src/redux/counter/counterSlice.js
+	
+	import { createSlice } from '@reduxjs/toolkit'
+	export const counterSlice = createSlice({
+	 name: 'counter',
+	 initialState: {
+	  value: 0,
+	 },
+	 reducers: {
+	  increment: (state) => {
+	   state.value += 1
+	  },
+	  decrement: (state) => {
+	   state.value -= 1
+	  },
+	  incrementByAmount: (state, action) => {
+	   state.value += action.payload
+	  },
+	 },
+	})
+	export const { increment, decrement, incrementByAmount } = counterSlice.actions
+	export default counterSlice.reducer
+	
+
+48. // App.jsx
+	import { useState } from 'react'
+	import './App.css'
+	import Navbar from './components/Navbar'
+	import { useSelector, useDispatch } from 'react-redux'
+	import { decrement, increment } from './redux/counter/counterSlice.js'
+
+	function App() {
+	  const count = useSelector((state) => state.counter.value)
+	  const dispatch = useDispatch()
+
+	  return (
+		<>
+		  <Navbar />
+		  <div className="card">
+			<button onClick={() => dispatch(decrement())}>-</button>
+			count is {count}
+			<button onClick={() => dispatch(increment())}>+</button>
+		  </div>
+		</>
+	  )
+	}
+	export default App
